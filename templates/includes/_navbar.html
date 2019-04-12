@@ -1,0 +1,32 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">HOMEAUTO X</a>
+
+          <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+        <div id="navbar" class="collapse navbar-collapse">
+
+            <ul class="navbar-nav mr-auto">
+            <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="/articles">Articles</a></li>
+            </ul>
+
+            <ul class="navbar-nav navbar-right">
+            {% if session.uid %}
+
+              <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
+              <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+                <li class="nav-item"><a class="nav-link" href="/index">Control Devices</a></li>
+
+            {% else %}
+              <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
+              <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+
+            {% endif %}
+
+          </ul>
+        </div><!--/.nav-collapse -->
+
+</nav>
