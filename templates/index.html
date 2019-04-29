@@ -2,36 +2,95 @@
 
 {% block body %}
 
-    <div class = 'jumbotron'>
+    <div class = "jumbotron">
         <h1 class="text-center">RPi GPIO Control</h1>
         <p class="text-center">Here you will Find all the information regarding your houses's Temperature and Humidity.</p>
     </div>
 
 
-        <div class ='card-group'>
+        <div class ='card-group' style="margin-bottom:100px">
             <div class="card" style="width: 18rem;">
             <div class="card-body">
             <ul class="list-group">
                 <li class="list-group-item"><h1 class="text-center">Sensor Status</h1></li></ul>
 
-            <h3> BUTTON   {{ button  }}</h3>
-		    <h3> MOTION {{ senPIR  }}</h3>
-            <h3> TEMPERATURE   {{ temperature  }}</h3>
-            <h3> HUMIDITY {{ humidity  }}</h3>
+                    <div class="card-deck">
+                    <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+                        <div class="card-header">Temperature</div>
+                        <div class="card-body">
+                            <h3 class="card-title"> TEMPERATURE   {{ temperature }}</h3>
+                            <br>
+                            <br>
+                            <br>
+                            <p class="card-text">This is the Temperature inside your room</p>
+                        </div>
+                        </div>
 
-        </div>
-        </div>
+                        <div class="card text-white bg-danger mb-3" style="max-width: 18rem;">
+                        <div class="card-header">Ac Temperature</div>
+                        <div class="card-body">
+                            <h3 class="card-title"> AC TEMPERATURE   {{ tempeature  }}</h3>
+                            <br>
+                            <br>
+                            <br>
+                            <p class="card-text">This is the Temperature of your ac inside your room</p>
+                        </div>
+                        </div>
+
+
+
+                       <div class="card text-white bg-secondary mb-3" style="max-width: 18rem;">
+                           <div class="card-header">Humidity</div>
+                           <div class="card-body">
+                                <h3 class="card-title"> HUMIDITY {{ humidity  }}</h3>
+                                <br>
+                                <br>
+                                <br>
+                                <p class="card-text">This is the Humidity inside your room</p>
+                        </div>
+                        </div>
+                        </div>
+
+
+            </div>
+            </div>
         </div>
 
 
-         <div class ='card-group'>
+         <div class ='card-group' style="margin-bottom:100px">
             <div class="card" style="width: 18rem;">
             <div class="card-body">
             <ul class="list-group">
                 <li class="list-group-item"><h1 class="text-center">Actuator Status</h1></li></ul>
-                <h3> RED LED STATUS{{ ledRed  }}</h3>
-		    <h3> YLW LED STATUS {{ ledYlw  }}</h3>
-            <h3> GRN LED STATUS  {{ ledGrn  }}</h3>
+
+                <div class="card">
+
+                        <div class="card bg-danger">
+                        <div class="card-body text-center">
+                            <h3> Red Led Sts   {{ ledRed  }}</h3>
+                            <p class="card-text">This is the Temperature inside your room</p>
+                        </div>
+                        </div>
+                </div>
+
+                <div class="card">
+                        <div class="card bg-warning">
+                        <div class="card-body text-center">
+                            <h3> Yel Led Sts {{ ledYlw }}</h3>
+                            <p class="card-text">Some text inside the fourth card</p>
+                         </div>
+                         </div>
+
+                </div>
+
+                <div class="card">
+                        <div class="card bg-success">
+                        <div class="card-body text-center">
+                            <h3> Green LEd Sts {{ ledGrn  }}</h3>
+                            <p class="card-text">Some text inside the fourth card</p>
+                         </div>
+                         </div>
+                </div>
 
         </div>
         </div>

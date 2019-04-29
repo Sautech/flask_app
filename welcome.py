@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, flash, redirect, url_for, session, logging
 import json
+import pickle
 import pyrebase
 import RPi.GPIO as GPIO
 import time
@@ -62,8 +63,6 @@ ledRedSts = 0
 ledYlwSts = 0
 ledGrnSts = 0
 humidity, temperature = Adafruit_DHT.read_retry(11, 13)
-database.child("DHT").set({ "Humidity":humidity ,"Temperature":temperature})
-
 
 
 
@@ -89,14 +88,25 @@ def index():
 
 
     templateData = {
-        'button': buttonSts,
-        #'senPIR': senPIRSts,
         'ledRed': ledRedSts,
         'ledYlw': ledYlwSts,
         'ledGrn': ledGrnSts,
         'temperature': temperature,
         'humidity': humidity,
+        'date':time.strftime('%Y-%m-%d'), 
+        'time':time.strftime('%H:%M:%S'),
     }
+    a = database.child("details").push(templateData)
+    led1={
+        'ledRed':ledRedSts,
+        'ledYlw': ledYlwSts,
+        'ledGrn': ledGrnSts,
+        'date':time.strftime('%Y-%m-%d'), 
+        'time':time.strftime('%H:%M:%S'),
+        }
+    b = database.child("leddetails").push(led1)
+    print(a)
+    print(b)
     return render_template('index.html', **templateData)
 
 
@@ -130,6 +140,8 @@ def action(deviceName, action):
         'ledGrn': ledGrnSts,
         'temperature': temperature,
         'humidity': humidity,
+        
+        
     }
     return render_template('index.html', **templateData)
 
@@ -179,7 +191,8 @@ def login_page():
             #print(auth.get_account_info(user['idToken']))
             print(user)
             session['uid'] = user['localId']
-            
+            a = session['uid']
+            save(user)
             return redirect(url_for('landing_page'))
         except Exception as e:
             errorMessage = e
@@ -208,10 +221,23 @@ def  reset_password():
 
 def activate():
     GPIO.output(ledRed, GPIO.HIGH)
-    capture_image('1313123123')
+    user= load()
+    if user:
+        capture_image(user['localId'])
+       
 def deactivate():
     GPIO.output(ledRed, GPIO.LOW)
+
+#saving userid in a pickle
+def save(object):
+    with open('user.pkl', 'wb') as handle:
+        pickle.dump(object, handle, protocol=pickle.HIGHEST_PROTOCOL)
     
+def load(pkl='user.pkl'):
+    if os.path.exists(pkl):
+        with open(pkl, 'rb') as handle:
+            b = pickle.load(handle)
+        return b
     
 pir = MotionSensor(20)
 print(pir)
@@ -222,7 +248,7 @@ ultrasonic.when_in_range = buzzer.on
 print('buzzer on')
 ultrasonic.when_out_of_range = buzzer.off
 print('buzzer off')
-sleep(1)
+sleep(10)
 #def upload(imagepath):
  #   imagename= os.path.basename(imagepath)
   #  x=storage.child(f"images/{imagename}").put(imagepath,session['uid'])
@@ -231,4 +257,4 @@ sleep(1)
     #sendmail(subject,imageurl)
 
 if __name__ == "__main__":
-    welcome.run(debug=False)
+    welcome.run(debug=True)
